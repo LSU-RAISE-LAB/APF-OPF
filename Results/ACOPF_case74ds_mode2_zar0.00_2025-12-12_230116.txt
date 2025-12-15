@@ -1,0 +1,109 @@
+
+=============================================
+ AC-OPF COMPARISON LOG START
+ Case       : case74ds
+ Mode       : 2
+ RATE_A zar : 0.00 %
+ Timestamp  : 2025-12-12_230116
+ Log file   : logs\ACOPF_case74ds_mode2_zar0.00_2025-12-12_230116.txt
+=============================================
+
+> [YALMIP+IPOPT] Running EXP (admittance-angle included)...
+
+===== AC-OPF (EXP baseline) =====
+Case: case74ds
+Solver: YALMIP + IPOPT (exp kernel)
+Status: Successfully solved (ipopt-standard)
+Objective (cost): 135.242726
+Elapsed time: 0.139 s
+Max |P-mis| (pu): 4.083e-11 | Max |Q-mis| (pu): 1.528e-11
+Vmag range (pu): [0.9537, 1.0000]
+Angle range (deg): [-0.151, 0.000]
+Congested lines: 0
+=================================
+> [YALMIP+IPOPT] Running ALL-PASS (admittance-angle included)...
+
+===== AC-OPF (ALL-PASS, DC pre-rotation) =====
+Case: case74ds | K=1 | params: [0.5]
+Solver: YALMIP + IPOPT | hess=limited-memory | linear_solver=mumps
+Status: Successfully solved (ipopt-standard)
+Objective (cost): 135.242726
+Elapsed time: 0.097 s
+Pre-Rotation time: 0.014 s
+Max |P-mis| (pu): 4.043e-11 | Max |Q-mis| (pu): 1.654e-11
+Vmag range (pu): [0.9537, 1.0000]
+Angle range (deg): [-0.151, 0.000]
+Congested lines: 0
+==============================================
+
+> Comparing results (EXP vs ALL-PASS)...
+
+============================================================
+AC-OPF Comparison Report
+============================================================
+
+[Objective] (cost units from gencost)
+  f_EXP = 135.242726
+  f_AP  = 135.242726
+  df    = -0.000000
+  gap   = 0.0000 %
+
+[Timing]
+  Elapsed solver time [s]
+    EXP: 0.138876 s
+    AP : 0.097392 s
+  Speed: ALL-PASS is FASTER by 0.041484 s (29.87%).  Speedup = 1.426x
+
+[Variable errors] absolute difference |AP - EXP|
+  Pg [MW]    : max=4.055e-12 | avg=4.055e-12 | min=4.055e-12
+  Qg [MVAr]  : max=1.270e-12 | avg=1.270e-12 | min=1.270e-12
+  Vm [pu]    : max=2.265e-14 | avg=8.231e-15 | min=0.000e+00
+  Va [deg]   : max=1.805e-07 | avg=4.922e-08 | min=0.000e+00
+
+[Angles from solver outputs]
+  dtheta_line.deg = (theta_from - theta_to) per in-service branch [deg]
+    EXP: max= 0.024142 | avg= 0.003252 | min= 0.000096   (n=73)
+    AP : max= 0.024142 | avg= 0.003252 | min= 0.000096   (n=73)
+
+  deltaE_deg = (theta_i - theta_j - phi_e) over off-diagonal Ybus edges [deg]
+    EXP: max=-142.779775 | avg=-142.849548 | min=-142.914251   (n=146)
+    AP : max=-142.779775 | avg=-142.849548 | min=-142.914251   (n=146)
+
+[Congestion from solver reports] (branches only)
+  EXP: 0 congested branches
+  AP : 0 congested branches
+  Match (physical/undirected) : common=0 | only-EXP=0 | only-AP=0
+
+[Feasibility] AP solution evaluated under TRUE trig AC model
+  tol = 1.0e-01  (used for pu quantities and as a numeric slack in checks)
+  Checks: Pbal=OK | Qbal=OK | V=OK | Pg=OK | Qg=OK | ang=OK | thermal=OK
+  PASS overall? OK
+  Violation counts [count]
+    Bus balance (P/Q) : 0
+    Voltage           : 0
+    Gen P             : 0
+    Gen Q             : 0
+    Angle             : 0
+    Thermal           : 0
+  Bus-balance violating buses [bus idx]: (none)
+  Voltage violating buses [bus idx]: (none)
+  GenP violating generators [gen row]: (none)
+  GenQ violating generators [gen row]: (none)
+  Angle violating branches [on-idx]: (none)
+  Angle violating branch endpoints [from->to]: (none)
+  Thermal violating branches [on-idx]: (none)
+  Thermal violating branch endpoints [from->to]: (none)
+  How bad? (violation magnitudes)
+    Power balance [pu]: max|Pmis|=9.389e-07, avg|Pmis|=2.606e-08 | max|Qmis|=1.238e-06, avg|Qmis|=3.440e-08
+    Voltage [pu]      : max margin=0.000e+00, avg margin (violators)=NaN
+    Gen P [pu]        : max margin=0.000e+00, avg margin (violators)=NaN
+    Gen Q [pu]        : max margin=0.000e+00, avg margin (violators)=NaN
+    Angle [rad]       : max margin=0.000e+00, avg margin (violators)=NaN
+    Thermal [pu]      : max exceed=0.000e+00, avg exceed (violators)=NaN
+============================================================
+
+
+=============================================
+ COMPLETED SUCCESSFULLY
+=============================================
+

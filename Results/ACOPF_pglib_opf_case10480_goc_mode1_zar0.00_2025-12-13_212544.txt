@@ -1,0 +1,114 @@
+
+=============================================
+ AC-OPF COMPARISON LOG START
+ Case       : pglib_opf_case10480_goc
+ Mode       : 1
+ RATE_A zar : 0.00 %
+ Timestamp  : 2025-12-13_212544
+ Log file   : logs\ACOPF_pglib_opf_case10480_goc_mode1_zar0.00_2025-12-13_212544.txt
+=============================================
+
+> [CasADi+IPOPT] Running EXP (admittance-angle included)...
+IPOPT iterations: 4481
+
+===== AC-OPF (EXP baseline, CasADi+IPOPT) =====
+Case: pglib_opf_case10480_goc
+Solver: CasADi + IPOPT (exp kernel)
+Status: Error_In_Step_Computation
+Objective (cost): 2314648.004538
+Elapsed time: 5353.593 s
+Max |P-mis| (pu): 1.359e-10 | Max |Q-mis| (pu): 3.846e-11
+Vmag range (pu): [0.9264, 1.1000]
+Angle range (deg): [-92.377, 6.961]
+Congested lines: 7
+===============================================
+> [CasADi+IPOPT] Running ALL-PASS (admittance-angle included)...
+IPOPT iterations: 1829
+
+===== AC-OPF (ALL-PASS, DC pre-rotation | CasADi+IPOPT) =====
+Case: pglib_opf_case10480_goc | K=1 | params: [0.5]
+Solver: CasADi + IPOPT | hess=limited-memory | linear_solver=mumps
+Status: Error_In_Step_Computation
+Objective (cost): 2314647.793797
+Elapsed time: 2191.827 s
+Pre-Rotation time: 4.471 s
+Max |P-mis| (pu): 2.961e-10 | Max |Q-mis| (pu): 4.991e-11
+Vmag range (pu): [0.9264, 1.1000]
+Angle range (deg): [-92.377, 6.962]
+Congested lines: 7
+=============================================================
+
+> Comparing results (EXP vs ALL-PASS)...
+
+============================================================
+AC-OPF Comparison Report
+============================================================
+
+[Objective] (cost units from gencost)
+  f_EXP = 2314648.004538
+  f_AP  = 2314647.793797
+  df    = -0.210741
+  gap   = 0.0000 %
+
+[Timing]
+  Elapsed solver time [s]
+    EXP: 5353.592843 s
+    AP : 2191.826689 s
+  IPOPT iterations [count] (if available)
+    EXP: 4481
+    AP : 1829
+  Speed: ALL-PASS is FASTER by 3161.766154 s (59.06%).  Speedup = 2.443x
+
+[Variable errors] absolute difference |AP - EXP|
+  Pg [MW]    : max=1.061e-01 | avg=1.601e-03 | min=0.000e+00
+  Qg [MVAr]  : max=9.959e+01 | avg=7.365e-01 | min=0.000e+00
+  Vm [pu]    : max=8.023e-05 | avg=5.826e-06 | min=0.000e+00
+  Va [deg]   : max=5.754e-03 | avg=3.156e-04 | min=0.000e+00
+
+[Angles from solver outputs]
+  dtheta_line.deg = (theta_from - theta_to) per in-service branch [deg]
+    EXP: max= 24.274504 | avg= 0.272599 | min=-25.728950   (n=18559)
+    AP : max= 24.274525 | avg= 0.272599 | min=-25.728177   (n=18559)
+
+  deltaE_deg = (theta_i - theta_j - phi_e) over off-diagonal Ybus edges [deg]
+    EXP: max=-66.023031 | avg=-108.580763 | min=-149.703149   (n=32214)
+    AP : max=-66.023804 | avg=-108.580763 | min=-149.703731   (n=32214)
+
+[Congestion from solver reports] (branches only)
+  EXP: 7 congested branches
+  AP : 7 congested branches
+  Match (physical/undirected) : common=7 | only-EXP=0 | only-AP=0
+
+[Feasibility] AP solution evaluated under TRUE trig AC model
+  tol = 1.0e-01  (used for pu quantities and as a numeric slack in checks)
+  Checks: Pbal=OK | Qbal=OK | V=OK | Pg=OK | Qg=OK | ang=OK | thermal=OK
+  PASS overall? OK
+  Violation counts [count]
+    Bus balance (P/Q) : 0
+    Voltage           : 0
+    Gen P             : 0
+    Gen Q             : 0
+    Angle             : 0
+    Thermal           : 0
+  Bus-balance violating buses [bus idx]: (none)
+  Voltage violating buses [bus idx]: (none)
+  GenP violating generators [gen row]: (none)
+  GenQ violating generators [gen row]: (none)
+  Angle violating branches [on-idx]: (none)
+  Angle violating branch endpoints [from->to]: (none)
+  Thermal violating branches [on-idx]: (none)
+  Thermal violating branch endpoints [from->to]: (none)
+  How bad? (violation magnitudes)
+    Power balance [pu]: max|Pmis|=3.789e-04, avg|Pmis|=5.922e-07 | max|Qmis|=1.204e-04, avg|Qmis|=2.626e-07
+    Voltage [pu]      : max margin=1.100e-08, avg margin (violators)=NaN
+    Gen P [pu]        : max margin=1.100e-07, avg margin (violators)=NaN
+    Gen Q [pu]        : max margin=2.671e-08, avg margin (violators)=NaN
+    Angle [rad]       : max margin=0.000e+00, avg margin (violators)=NaN
+    Thermal [pu]      : max exceed=6.537e-05, avg exceed (violators)=NaN
+============================================================
+
+
+=============================================
+ COMPLETED SUCCESSFULLY
+=============================================
+

@@ -1,0 +1,141 @@
+
+=============================================
+ AC-OPF COMPARISON LOG START
+ Case       : pglib_opf_case8387_pegase
+ Mode       : 1
+ RATE_A zar : 0.00 %
+ Timestamp  : 2025-12-13_144046
+ Log file   : logs\ACOPF_pglib_opf_case8387_pegase_mode1_zar0.00_2025-12-13_144046.txt
+=============================================
+
+> [CasADi+IPOPT] Running EXP (admittance-angle included)...
+IPOPT iterations: 6417
+
+===== AC-OPF (EXP baseline, CasADi+IPOPT) =====
+Case: pglib_opf_case8387_pegase
+Solver: CasADi + IPOPT (exp kernel)
+Status: Error_In_Step_Computation
+Objective (cost): 2771397.121070
+Elapsed time: 4407.035 s
+Max |P-mis| (pu): 7.948e-10 | Max |Q-mis| (pu): 1.950e-11
+Vmag range (pu): [0.9000, 1.1952]
+Angle range (deg): [-65.596, 32.410]
+Congested lines: 690
+===============================================
+> [CasADi+IPOPT] Running ALL-PASS (admittance-angle included)...
+IPOPT iterations: 3207
+
+===== AC-OPF (ALL-PASS, DC pre-rotation | CasADi+IPOPT) =====
+Case: pglib_opf_case8387_pegase | K=1 | params: [0.5]
+Solver: CasADi + IPOPT | hess=limited-memory | linear_solver=mumps
+Status: Error_In_Step_Computation
+Objective (cost): 2772939.182583
+Elapsed time: 2515.271 s
+Pre-Rotation time: 0.053 s
+Max |P-mis| (pu): 9.851e-09 | Max |Q-mis| (pu): 1.669e-09
+Vmag range (pu): [0.9000, 1.1956]
+Angle range (deg): [-65.482, 32.226]
+Congested lines: 692
+=============================================================
+
+> Comparing results (EXP vs ALL-PASS)...
+
+============================================================
+AC-OPF Comparison Report
+============================================================
+
+[Objective] (cost units from gencost)
+  f_EXP = 2771397.121070
+  f_AP  = 2772939.182583
+  df    = 1542.061513
+  gap   = 0.0556 %
+
+[Timing]
+  Elapsed solver time [s]
+    EXP: 4407.034927 s
+    AP : 2515.270938 s
+  IPOPT iterations [count] (if available)
+    EXP: 6417
+    AP : 3207
+  Speed: ALL-PASS is FASTER by 1891.763990 s (42.93%).  Speedup = 1.752x
+
+[Variable errors] absolute difference |AP - EXP|
+  Pg [MW]    : max=7.292e+01 | avg=1.011e+00 | min=0.000e+00
+  Qg [MVAr]  : max=2.130e+02 | avg=2.133e+00 | min=0.000e+00
+  Vm [pu]    : max=1.313e-02 | avg=3.027e-04 | min=8.229e-10
+  Va [deg]   : max=1.157e+00 | avg=2.219e-01 | min=0.000e+00
+
+[Angles from solver outputs]
+  dtheta_line.deg = (theta_from - theta_to) per in-service branch [deg]
+    EXP: max= 29.826561 | avg= 0.593456 | min=-29.999937   (n=14561)
+    AP : max= 29.999984 | avg= 0.594274 | min=-29.999927   (n=14561)
+
+  deltaE_deg = (theta_i - theta_j - phi_e) over off-diagonal Ybus edges [deg]
+    EXP: max=-61.422340 | avg=-100.908151 | min=-159.058075   (n=25990)
+    AP : max=-61.422342 | avg=-100.908151 | min=-159.058074   (n=25990)
+
+[Congestion from solver reports] (branches only)
+  EXP: 690 congested branches
+  AP : 692 congested branches
+  Match (physical/undirected) : common=689 | only-EXP=1 | only-AP=3
+  Lines congested ONLY in EXP (showing up to 1) [bus-bus]:
+    593-1266
+  Lines congested ONLY in AP (showing up to 3) [bus-bus]:
+    2248-6976
+    1603-6830
+    2773-5715
+
+[Feasibility] AP solution evaluated under TRUE trig AC model
+  tol = 1.0e-01  (used for pu quantities and as a numeric slack in checks)
+  Checks: Pbal=FAIL | Qbal=FAIL | V=OK | Pg=OK | Qg=OK | ang=OK | thermal=FAIL
+  PASS overall? FAIL
+  Violation counts [count]
+    Bus balance (P/Q) : 38
+    Voltage           : 0
+    Gen P             : 0
+    Gen Q             : 0
+    Angle             : 0
+    Thermal           : 10
+  Bus-balance violating buses [bus idx]: 10 shown / 38 total: 238 455 603 877 986 1006 1013 1233 1498 1729 ...
+  Bus-balance details (first 10) [Pmis/Qmis pu]:
+    bus=238  Pmis=-1.443e-01 pu  Qmis=-5.620e-02 pu
+    bus=455  Pmis=-2.292e-01 pu  Qmis=-6.696e-03 pu
+    bus=603  Pmis=-1.213e-01 pu  Qmis=-6.580e-03 pu
+    bus=877  Pmis=+1.211e-01 pu  Qmis=-9.796e-02 pu
+    bus=986  Pmis=+4.188e-01 pu  Qmis=-3.134e-01 pu
+    bus=1006  Pmis=+1.449e-01 pu  Qmis=-3.272e-02 pu
+    bus=1013  Pmis=-1.930e-01 pu  Qmis=-1.146e-02 pu
+    bus=1233  Pmis=-6.989e-01 pu  Qmis=-1.855e-01 pu
+    bus=1498  Pmis=+2.762e-01 pu  Qmis=-4.589e-02 pu
+    bus=1729  Pmis=+1.065e-01 pu  Qmis=+1.120e-02 pu
+  Voltage violating buses [bus idx]: (none)
+  GenP violating generators [gen row]: (none)
+  GenQ violating generators [gen row]: (none)
+  Angle violating branches [on-idx]: (none)
+  Angle violating branch endpoints [from->to]: (none)
+  Thermal violating branches [on-idx]: 10 shown / 10 total: 1823 5607 5816 6218 6442 7078 10523 10524 10571 10640 
+  Thermal violating branch endpoints [from->to]: 10 shown / 10 total:
+    5673 -> 2235
+    1233 -> 986
+    2408 -> 6497
+    2945 -> 986
+    2280 -> 3193
+    1646 -> 7693
+    5616 -> 4996
+    5616 -> 3060
+    3425 -> 5545
+    238 -> 877
+  How bad? (violation magnitudes)
+    Power balance [pu]: max|Pmis|=6.989e-01, avg|Pmis|=2.231e-03 | max|Qmis|=3.134e-01, avg|Qmis|=5.224e-04
+    Voltage [pu]      : max margin=0.000e+00, avg margin (violators)=NaN
+    Gen P [pu]        : max margin=7.140e-07, avg margin (violators)=NaN
+    Gen Q [pu]        : max margin=0.000e+00, avg margin (violators)=NaN
+    Angle [rad]       : max margin=0.000e+00, avg margin (violators)=NaN
+    Thermal [pu]      : max exceed=2.757e-01, avg exceed (violators)=1.621e-01
+============================================================
+
+
+=============================================
+ COMPLETED SUCCESSFULLY
+=============================================
+
